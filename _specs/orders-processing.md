@@ -28,6 +28,7 @@ Console app that loads `orders.json` and offers a simple interactive menu: show 
 - Average is not rounded in the service; it is rounded to 2 decimals for display only, using `MidpointRounding.AwayFromZero`.
 - No completed orders: count 0, total 0, average 0 (no division by zero), most popular product none (printed "n/a").
 - Empty orders list and orders with empty `items` are valid (order total 0).
+- Missing `items` in the JSON is treated as an empty list (order total 0).
 - Missing file or invalid JSON: print a clear error message and exit with a non-zero code; no stack trace.
 - UI: simple interactive console menu (1 all orders, 2 search by customer, 3 statistics, 0 exit).
 
