@@ -64,7 +64,7 @@ None — resolved as assumptions above.
 
 ## Testing Guidelines
 
-Create tests in `tests/OrdersApp.Tests` for the following cases (at most 6, without going too heavy):
+Create tests in `tests/OrdersApp.Tests` for the following cases (at most 7, without going too heavy):
 
 - Provided data statistics: count 3, total 425, average ≈ 141.67 (cancelled order excluded).
 - Tie: top products are Keyboard and Mouse, sorted alphabetically.
@@ -72,6 +72,7 @@ Create tests in `tests/OrdersApp.Tests` for the following cases (at most 6, with
 - Customer search: multiple orders (Nino), case-insensitive/trimmed, includes cancelled (Giorgi), not found.
 - Status matching is case-insensitive and trimmed ("Completed " counts).
 - No completed orders (and empty list): zeros, no exception, no top product.
+- Completed order with empty `items`: count 1, total 0, average 0, no top product, no exception.
 
 ## AI Review Notes
 - Claude independently found every trap I had on my hand-made list:
@@ -83,3 +84,10 @@ Create tests in `tests/OrdersApp.Tests` for the following cases (at most 6, with
 - First draft left decisions as open questions — I resolved them as explicit assumptions.
 - Noted for implementation: C# `Math.Round` defaults to banker's rounding,
   so `MidpointRounding.AwayFromZero` must be explicit.
+  - Implementation passed all 6 original tests but crashed on a spec'd edge case:
+  a completed order with empty `items` made `Max()` run on an empty sequence
+  (InvalidOperationException). Found in manual review, reproduced with a
+  failing test first, then fixed with `DefaultIfEmpty(0)`.
+- Initial tests missed two spec rules (unknown status excluded, whitespace
+  customer search). Without the "pending" case, a `!= "cancelled"`
+  implementation would have passed every test.

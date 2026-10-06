@@ -86,4 +86,17 @@ public class OrderServiceTests
             Assert.Empty(stats.MostPopularProducts);
         }
     }
+
+    [Fact]
+    public void Statistics_CompletedOrderWithEmptyItems_CountsWithZeroTotal()
+    {
+        List<Order> orders = [new(1, "Nino", "completed", [])];
+
+        var stats = OrderService.CalculateStatistics(orders);
+
+        Assert.Equal(1, stats.CompletedCount);
+        Assert.Equal(0m, stats.TotalSales);
+        Assert.Equal(0m, stats.AverageOrderValue);
+        Assert.Empty(stats.MostPopularProducts);
+    }
 }
