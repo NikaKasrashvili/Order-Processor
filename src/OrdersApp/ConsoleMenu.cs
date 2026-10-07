@@ -21,7 +21,10 @@ public static class ConsoleMenu
                 case "0":
                     return;
                 case "1":
-                    PrintOrders(orders, output);
+                    if (orders.Count == 0)
+                        output.WriteLine("No orders.");
+                    else
+                        PrintOrders(orders, output);
                     break;
                 case "2":
                     output.Write("Customer name: ");

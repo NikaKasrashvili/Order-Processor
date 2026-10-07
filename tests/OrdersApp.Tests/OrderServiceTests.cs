@@ -18,7 +18,7 @@ public class OrderServiceTests
 
         Assert.Equal(3, stats.CompletedCount);
         Assert.Equal(425m, stats.TotalSales);
-        Assert.Equal(141.67m, stats.AverageOrderValue, 2);
+        Assert.Equal(425m / 3m, stats.AverageOrderValue); // unrounded: the service must not round
     }
 
     [Fact]

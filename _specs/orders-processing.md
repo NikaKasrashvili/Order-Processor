@@ -64,15 +64,21 @@ None — resolved as assumptions above.
 
 ## Testing Guidelines
 
-Create tests in `tests/OrdersApp.Tests` for the following cases (at most 7, without going too heavy):
+Create tests in `tests/OrdersApp.Tests` for the following cases (at most 10, without going too heavy). Service tests (`OrderServiceTests`, 7):
 
-- Provided data statistics: count 3, total 425, average ≈ 141.67 (cancelled order excluded).
+- Provided data statistics: count 3, total 425, average exactly `425m / 3m` (unrounded, so the test fails if the service rounds); cancelled order excluded.
 - Tie: top products are Keyboard and Mouse, sorted alphabetically.
 - Unique top product (clear winner) when quantities differ.
 - Customer search: multiple orders (Nino), case-insensitive/trimmed, includes cancelled (Giorgi), not found.
 - Status matching is case-insensitive and trimmed ("Completed " counts).
 - No completed orders (and empty list): zeros, no exception, no top product.
 - Completed order with empty `items`: count 1, total 0, average 0, no top product, no exception.
+
+Loader tests (`OrderLoaderTests`, 3, using temp files that are cleaned up afterwards):
+
+- JSON order without `items` loads with an empty `Items` list.
+- Invalid JSON throws `OrderLoadException`.
+- Missing file throws `OrderLoadException`.
 
 ## AI Review Notes
 - Claude independently found every trap I had on my hand-made list:
